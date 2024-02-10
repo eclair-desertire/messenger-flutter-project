@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:messenger_flutter_project/core/consts/theme.dart';
+import 'package:messenger_flutter_project/features/router/router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,12 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      
+      title: 'Chat Demo',
+      theme: lightTheme,
+      initialRoute: '/',
+      routes: appRoutes,
     );
   }
 }
