@@ -65,10 +65,6 @@ class _ChatListState extends State<ChatList> {
         separatorBuilder: (context, index) => Divider(),
         itemBuilder: (context, i) {
           return ChatTile(name: names[i], icon: images[i]);
-          // final coin = _cryptoCoinsList![i];
-          // return CryptoCoinTile(
-          //   coin: coin,
-          // );
         },
       ),
     );

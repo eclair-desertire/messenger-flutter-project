@@ -26,7 +26,7 @@ final lightTheme = ThemeData(
   dividerColor: Colors.white24,
   appBarTheme: const AppBarTheme(
     backgroundColor: Colors.white,
-    iconTheme: IconThemeData(color: Colors.white),
+    iconTheme: IconThemeData(color: Colors.black),
     titleTextStyle: TextStyle(
       color: Colors.black,
       fontSize: 32,

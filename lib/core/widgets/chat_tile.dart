@@ -23,10 +23,11 @@ class _ChatTileState extends State<ChatTile> {
       title: Text(
         widget.name,
       ),
+      subtitle: Text("ПРОВЕРКА"),
       onTap: () {
         Navigator.of(context).pushNamed(
           '/chat',
-          arguments: widget.name,
+          arguments: {'name': widget.name, 'icon': widget.icon},
         );
       },
     );
