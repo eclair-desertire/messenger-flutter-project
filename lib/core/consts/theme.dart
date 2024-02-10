@@ -8,6 +8,11 @@ abstract class AppIcons {
   static const String unread = "assets/icons/unread.svg";
   static const String read = "assets/icons/read.svg";
   static const String search = "assets/icons/search_icon.svg";
+
+  static const String viktorVlasov = "assets/images/viktor_vlasov.png";
+  static const String sashaAlekseev = "assets/images/sasha_alekseev.png";
+  static const String petrZharinov = "assets/images/petr_zharinov.png";
+  static const String alinaZhukova = "assets/images/alina_zhukova.png";
 }
 
 extension SizedBoxExtension on int {
