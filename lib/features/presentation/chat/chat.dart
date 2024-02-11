@@ -2,7 +2,9 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 import 'package:messenger_flutter_project/core/consts/theme.dart';
+import 'package:messenger_flutter_project/features/data/models/message.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -13,6 +15,28 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final TextEditingController _controller = TextEditingController();
+  List<Message> messages = [
+    Message(
+        text: "Hello world!",
+        isSentByMe: true,
+        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
+    Message(
+        text: "ПРИВЕТ",
+        isSentByMe: true,
+        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
+    Message(
+        text: "КАГДИЛА",
+        isSentByMe: false,
+        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
+    Message(
+        text: "КАКУЛЫ",
+        isSentByMe: true,
+        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
+    Message(
+        text: "ХЫЫЫ",
+        isSentByMe: false,
+        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
+  ];
 
   String? name;
   String? icon;
@@ -64,6 +88,47 @@ class _ChatState extends State<Chat> {
           ),
         ),
         centerTitle: false,
+      ),
+      body: ListView.builder(
+        itemCount: messages.length,
+        itemBuilder: (context, i) {
+          final Message message = messages[i];
+          return Container(
+            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            alignment: message.isSentByMe
+                ? Alignment.centerRight
+                : Alignment.centerLeft,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              decoration: BoxDecoration(
+                color:
+                    message.isSentByMe ? Color(0xff3CED78) : Colors.grey[300],
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: IntrinsicWidth(
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        message.text,
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: Text(
+                        DateFormat('HH:mm').format(message.dateofmessage),
+                        style: TextStyle(fontSize: 12, color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
       ),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(vertical: 44, horizontal: 20),

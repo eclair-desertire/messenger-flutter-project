@@ -29,8 +29,8 @@ final lightTheme = ThemeData(
     iconTheme: IconThemeData(color: Colors.black),
     titleTextStyle: TextStyle(
       color: Colors.black,
-      fontSize: 32,
-      fontWeight: FontWeight.w600,
+      fontSize: 14,
+      fontWeight: FontWeight.w500,
     ),
   ),
   scaffoldBackgroundColor: Colors.white,
@@ -38,14 +38,14 @@ final lightTheme = ThemeData(
   useMaterial3: true,
   textTheme: TextTheme(
     bodyMedium: const TextStyle(
-      color: Colors.white,
-      fontWeight: FontWeight.w700,
-      fontSize: 20,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+      fontSize: 15,
     ),
     labelSmall: TextStyle(
-      color: Colors.white.withOpacity(0.6),
-      fontWeight: FontWeight.w700,
-      fontSize: 20,
+      color: Colors.white,
+      fontWeight: FontWeight.w600,
+      fontSize: 15,
     ),
   ),
 );
