@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:messenger_flutter_project/core/consts/theme.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -10,6 +12,8 @@ class Chat extends StatefulWidget {
 }
 
 class _ChatState extends State<Chat> {
+  final TextEditingController _controller = TextEditingController();
+
   String? name;
   String? icon;
   @override
@@ -60,6 +64,42 @@ class _ChatState extends State<Chat> {
           ),
         ),
         centerTitle: false,
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: Row(
+          children: [
+            IconButton(
+              icon: SvgPicture.asset(
+                AppIcons.attach,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                // TODO: Добавить логику для прикрепления изображения
+              },
+            ),
+            Expanded(
+              child: TextField(
+                controller: _controller,
+                onSubmitted: (value) {
+                  _controller.clear();
+                },
+                decoration: InputDecoration(
+                  hintText: "Напишите сообщение...",
+                  border: InputBorder.none,
+                ),
+              ),
+            ),
+            IconButton(
+              icon: SvgPicture.asset(
+                AppIcons.audio,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                // TODO: Добавить логику для записи аудио
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
