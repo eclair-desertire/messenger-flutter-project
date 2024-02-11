@@ -90,6 +90,7 @@ class _ChatState extends State<Chat> {
         centerTitle: false,
       ),
       body: ListView.builder(
+        reverse: true,
         itemCount: messages.length,
         itemBuilder: (context, i) {
           final Message message = messages[i];

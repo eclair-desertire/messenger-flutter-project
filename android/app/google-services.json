@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "812867881016",
+    "project_id": "chattestproject-17676",
+    "storage_bucket": "chattestproject-17676.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:812867881016:android:ee4ccf3919ee90ec0f3ecd",
+        "android_client_info": {
+          "package_name": "kz.pinfinity.messenger_flutter_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyArPLQD4P0Qfk7y3a48b_g2DC1C836rBa4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

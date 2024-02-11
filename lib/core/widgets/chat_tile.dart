@@ -22,6 +22,7 @@ class _ChatTileState extends State<ChatTile> {
       ),
       title: Text(
         widget.name,
+        style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
       ),
       subtitle: Text("ПРОВЕРКА"),
       onTap: () {

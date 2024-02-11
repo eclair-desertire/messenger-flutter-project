@@ -28,7 +28,7 @@ final lightTheme = ThemeData(
     backgroundColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.black),
     titleTextStyle: TextStyle(
-      color: Colors.black,
+      color: Colors.black, // текст в сообщениях
       fontSize: 14,
       fontWeight: FontWeight.w500,
     ),
@@ -38,9 +38,9 @@ final lightTheme = ThemeData(
   useMaterial3: true,
   textTheme: TextTheme(
     bodyMedium: const TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.w600,
-      fontSize: 15,
+      color: Colors.black, // текст в списке
+      fontWeight: FontWeight.w500,
+      fontSize: 12,
     ),
     labelSmall: TextStyle(
       color: Colors.white,

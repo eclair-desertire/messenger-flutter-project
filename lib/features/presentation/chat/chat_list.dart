@@ -71,7 +71,6 @@ class _ChatListState extends State<ChatList> {
               return ChatTile(name: names[i], icon: images[i]);
             },
           ),
-          Divider(),
         ],
       ),
     );
