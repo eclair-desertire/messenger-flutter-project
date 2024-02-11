@@ -74,8 +74,7 @@ class _ChatListState extends State<ChatList> {
             separatorBuilder: (context, index) => Divider(),
             itemBuilder: (context, i) {
               return FutureBuilder<Message?>(
-                future: getLastMessage(
-                    names[i]),
+                future: getLastMessage(names[i]),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.done) {
                     if (snapshot.hasData) {
@@ -105,20 +104,23 @@ class _ChatListState extends State<ChatList> {
 Future<Message?> getLastMessage(String name) async {
   CollectionReference collection = FirebaseFirestore.instance.collection(name);
 
-  QuerySnapshot querySnapshot = await collection.get();
-  Map lastMes = querySnapshot.docs.last.data() as Map;
-  if (lastMes.isNotEmpty) {
-    String text = lastMes['text'];
-    Timestamp timestamp = lastMes['dateofmessage'];
-    bool isSentByMe = lastMes['isSentByMe'];
+  QuerySnapshot querySnapshot =
+      await collection.orderBy('dateofmessage', descending: false).get();
+  if (querySnapshot.docs.isNotEmpty) {
+    Map lastMes = querySnapshot.docs.last.data() as Map;
+    if (lastMes.isNotEmpty) {
+      String text = lastMes['text'];
+      Timestamp timestamp = lastMes['dateofmessage'];
+      bool isSentByMe = lastMes['isSentByMe'];
 
-    // Преобразование Timestamp в DateTime
-    DateTime dateOfMessage = timestamp.toDate();
-    Message lastMessage = Message(
-        text: text, isSentByMe: isSentByMe, dateofmessage: dateOfMessage);
-    return lastMessage;
-  } else {
-    log('No message');
-    return null;
+      // Преобразование Timestamp в DateTime
+      DateTime dateOfMessage = timestamp.toDate();
+      Message lastMessage = Message(
+          text: text, isSentByMe: isSentByMe, dateofmessage: dateOfMessage);
+      return lastMessage;
+    } else {
+      log('No message');
+      return null;
+    }
   }
 }

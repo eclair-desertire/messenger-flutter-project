@@ -49,6 +49,7 @@ class _ChatState extends State<Chat> {
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
               Navigator.of(context).pop();
+
             },
           ),
         ),
@@ -76,6 +77,7 @@ class _ChatState extends State<Chat> {
         centerTitle: false,
       ),
       body: ListView.builder(
+        reverse: true,
         itemCount: messages.length,
         itemBuilder: (context, i) {
           final Message message = messages[i];
@@ -148,6 +150,12 @@ class _ChatState extends State<Chat> {
                 child: TextField(
                   controller: _controller,
                   onSubmitted: (value) {
+                    writeData(name!, _controller.text);
+                    readMessages(name!).then((newMessages) {
+                      setState(() {
+                        messages = newMessages;
+                      });
+                    });
                     _controller.clear();
                   },
                   decoration: const InputDecoration(
@@ -183,7 +191,8 @@ Future<List<Message>> readMessages(String name) async {
   CollectionReference collection = FirebaseFirestore.instance.collection(name);
   List<Message> newMessages = [];
 
-  QuerySnapshot querySnapshot = await collection.get();
+  QuerySnapshot querySnapshot =
+      await collection.orderBy('dateofmessage', descending: true).get();
   for (var doc in querySnapshot.docs) {
     var data = doc.data() as Map<String, dynamic>;
     if (data.isEmpty) {
@@ -197,4 +206,14 @@ Future<List<Message>> readMessages(String name) async {
     newMessages.add(message);
   }
   return newMessages;
+}
+
+Future<void> writeData(String name, String text) async {
+  CollectionReference collection = FirebaseFirestore.instance.collection(name);
+
+  await collection.add({
+    'text': text,
+    'isSentByMe': true,
+    'dateofmessage': Timestamp.now(),
+  });
 }
