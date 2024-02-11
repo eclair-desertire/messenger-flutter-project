@@ -28,6 +28,8 @@ class _ChatListState extends State<ChatList> {
     AppIcons.alinaZhukova,
   ];
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

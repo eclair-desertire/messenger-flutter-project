@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:messenger_flutter_project/core/consts/theme.dart';
 import 'package:messenger_flutter_project/features/data/models/message.dart';
+import 'package:messenger_flutter_project/features/presentation/chat/chat_list.dart';
 
 class Chat extends StatefulWidget {
   const Chat({super.key});
@@ -31,9 +32,12 @@ class _ChatState extends State<Chat> {
 
     setState(() {});
     readMessages(name!).then((newMessages) {
+      if(mounted){
       setState(() {
         messages = newMessages;
       });
+      }
+
     });
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
@@ -48,8 +52,9 @@ class _ChatState extends State<Chat> {
           child: IconButton(
             icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
-              Navigator.of(context).pop();
-
+              Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (context) => ChatList()),
+                  (Route<dynamic> route) => false);
             },
           ),
         ),
