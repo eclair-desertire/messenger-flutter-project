@@ -60,12 +60,19 @@ class _ChatListState extends State<ChatList> {
           ],
         ),
       ),
-      body: ListView.separated(
-        itemCount: 4,
-        separatorBuilder: (context, index) => Divider(),
-        itemBuilder: (context, i) {
-          return ChatTile(name: names[i], icon: images[i]);
-        },
+      body: Column(
+        children: [
+          Divider(),
+          ListView.separated(
+            shrinkWrap: true,
+            itemCount: 4,
+            separatorBuilder: (context, index) => Divider(),
+            itemBuilder: (context, i) {
+              return ChatTile(name: names[i], icon: images[i]);
+            },
+          ),
+          Divider(),
+        ],
       ),
     );
   }

@@ -65,38 +65,61 @@ class _ChatState extends State<Chat> {
         ),
         centerTitle: false,
       ),
-      bottomNavigationBar: BottomAppBar(
+      bottomNavigationBar: Container(
+        padding: EdgeInsets.symmetric(vertical: 44, horizontal: 20),
+        color: Colors.white,
         child: Row(
           children: [
-            IconButton(
-              icon: SvgPicture.asset(
-                AppIcons.attach,
-                color: Colors.black,
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xff9DB7CB).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
-              onPressed: () {
-                // TODO: Добавить логику для прикрепления изображения
-              },
-            ),
-            Expanded(
-              child: TextField(
-                controller: _controller,
-                onSubmitted: (value) {
-                  _controller.clear();
+              child: IconButton(
+                icon: SvgPicture.asset(
+                  AppIcons.attach,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  // TODO: Добавить логику для прикрепления изображения
                 },
-                decoration: InputDecoration(
-                  hintText: "Напишите сообщение...",
-                  border: InputBorder.none,
+              ),
+            ),
+            8.w,
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Color(0xff9DB7CB).withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: TextField(
+                  controller: _controller,
+                  onSubmitted: (value) {
+                    _controller.clear();
+                  },
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.all(10),
+                    hintText: "Сообщение",
+                    border: InputBorder.none,
+                  ),
                 ),
               ),
             ),
-            IconButton(
-              icon: SvgPicture.asset(
-                AppIcons.audio,
-                color: Colors.black,
+            8.w,
+            Container(
+              decoration: BoxDecoration(
+                color: Color(0xff9DB7CB).withOpacity(0.2),
+                borderRadius: BorderRadius.circular(12),
               ),
-              onPressed: () {
-                // TODO: Добавить логику для записи аудио
-              },
+              child: IconButton(
+                icon: SvgPicture.asset(
+                  AppIcons.audio,
+                  color: Colors.black,
+                ),
+                onPressed: () {
+                  // TODO: Добавить логику для записи аудио
+                },
+              ),
             ),
           ],
         ),
