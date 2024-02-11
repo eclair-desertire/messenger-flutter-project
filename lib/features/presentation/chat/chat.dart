@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
@@ -15,31 +16,11 @@ class Chat extends StatefulWidget {
 
 class _ChatState extends State<Chat> {
   final TextEditingController _controller = TextEditingController();
-  List<Message> messages = [
-    Message(
-        text: "Hello world!",
-        isSentByMe: true,
-        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
-    Message(
-        text: "ПРИВЕТ",
-        isSentByMe: true,
-        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
-    Message(
-        text: "КАГДИЛА",
-        isSentByMe: false,
-        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
-    Message(
-        text: "КАКУЛЫ",
-        isSentByMe: true,
-        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
-    Message(
-        text: "ХЫЫЫ",
-        isSentByMe: false,
-        dateofmessage: DateTime.parse("2024-01-31T10:00:00Z")),
-  ];
+  List<Message> messages = [];
 
   String? name;
   String? icon;
+
   @override
   void didChangeDependencies() {
     final Map args = ModalRoute.of(context)?.settings.arguments as Map;
@@ -49,6 +30,11 @@ class _ChatState extends State<Chat> {
     icon = icon_arg;
 
     setState(() {});
+    readMessages(name!).then((newMessages) {
+      setState(() {
+        messages = newMessages;
+      });
+    });
     // TODO: implement didChangeDependencies
     super.didChangeDependencies();
   }
@@ -58,9 +44,9 @@ class _ChatState extends State<Chat> {
     return Scaffold(
       appBar: AppBar(
         leading: Transform.translate(
-          offset: Offset(18, 0),
+          offset: const Offset(18, 0),
           child: IconButton(
-            icon: Icon(Icons.arrow_back_ios_new),
+            icon: const Icon(Icons.arrow_back_ios_new),
             onPressed: () {
               Navigator.of(context).pop();
             },
@@ -82,7 +68,7 @@ class _ChatState extends State<Chat> {
                 title: Text(
                   name!,
                 ),
-                subtitle: Text("В Сети"),
+                subtitle: const Text("В Сети"),
               )
             ],
           ),
@@ -90,20 +76,20 @@ class _ChatState extends State<Chat> {
         centerTitle: false,
       ),
       body: ListView.builder(
-        reverse: true,
         itemCount: messages.length,
         itemBuilder: (context, i) {
           final Message message = messages[i];
           return Container(
-            padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
             alignment: message.isSentByMe
                 ? Alignment.centerRight
                 : Alignment.centerLeft,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
               decoration: BoxDecoration(
-                color:
-                    message.isSentByMe ? Color(0xff3CED78) : Colors.grey[300],
+                color: message.isSentByMe
+                    ? const Color(0xff3CED78)
+                    : Colors.grey[300],
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IntrinsicWidth(
@@ -114,14 +100,15 @@ class _ChatState extends State<Chat> {
                     Expanded(
                       child: Text(
                         message.text,
-                        style: TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black),
                       ),
                     ),
                     Padding(
                       padding: const EdgeInsets.only(left: 8),
                       child: Text(
                         DateFormat('HH:mm').format(message.dateofmessage),
-                        style: TextStyle(fontSize: 12, color: Colors.black),
+                        style:
+                            const TextStyle(fontSize: 12, color: Colors.black),
                       ),
                     ),
                   ],
@@ -132,13 +119,13 @@ class _ChatState extends State<Chat> {
         },
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.symmetric(vertical: 44, horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 44, horizontal: 20),
         color: Colors.white,
         child: Row(
           children: [
             Container(
               decoration: BoxDecoration(
-                color: Color(0xff9DB7CB).withOpacity(0.2),
+                color: const Color(0xff9DB7CB).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
@@ -155,7 +142,7 @@ class _ChatState extends State<Chat> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Color(0xff9DB7CB).withOpacity(0.2),
+                  color: const Color(0xff9DB7CB).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: TextField(
@@ -163,7 +150,7 @@ class _ChatState extends State<Chat> {
                   onSubmitted: (value) {
                     _controller.clear();
                   },
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     contentPadding: EdgeInsets.all(10),
                     hintText: "Сообщение",
                     border: InputBorder.none,
@@ -174,7 +161,7 @@ class _ChatState extends State<Chat> {
             8.w,
             Container(
               decoration: BoxDecoration(
-                color: Color(0xff9DB7CB).withOpacity(0.2),
+                color: const Color(0xff9DB7CB).withOpacity(0.2),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: IconButton(
@@ -182,9 +169,7 @@ class _ChatState extends State<Chat> {
                   AppIcons.audio,
                   color: Colors.black,
                 ),
-                onPressed: () {
-                  // TODO: Добавить логику для записи аудио
-                },
+                onPressed: () {},
               ),
             ),
           ],
@@ -192,4 +177,24 @@ class _ChatState extends State<Chat> {
       ),
     );
   }
+}
+
+Future<List<Message>> readMessages(String name) async {
+  CollectionReference collection = FirebaseFirestore.instance.collection(name);
+  List<Message> newMessages = [];
+
+  QuerySnapshot querySnapshot = await collection.get();
+  for (var doc in querySnapshot.docs) {
+    var data = doc.data() as Map<String, dynamic>;
+    if (data.isEmpty) {
+      return newMessages;
+    }
+    Message message = Message(
+      text: data['text'],
+      isSentByMe: data['isSentByMe'],
+      dateofmessage: (data['dateofmessage'] as Timestamp).toDate(),
+    );
+    newMessages.add(message);
+  }
+  return newMessages;
 }
